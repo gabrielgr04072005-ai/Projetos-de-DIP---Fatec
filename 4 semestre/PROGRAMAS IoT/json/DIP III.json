@@ -1,0 +1,256 @@
+[
+    {
+        "id": "56a5538bedcaa144",
+        "type": "tab",
+        "label": "Fluxo 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "526b2ef3a5687c49",
+        "type": "mqtt in",
+        "z": "56a5538bedcaa144",
+        "name": "",
+        "topic": "SENSORIOTM",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "f6621d40ff8b8bea",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 160,
+        "y": 460,
+        "wires": [
+            [
+                "5e0926b2698c05fb",
+                "bc233cbe5a4e24b8"
+            ]
+        ]
+    },
+    {
+        "id": "5e0926b2698c05fb",
+        "type": "csv",
+        "z": "56a5538bedcaa144",
+        "name": "",
+        "spec": "",
+        "sep": ",",
+        "hdrin": "",
+        "hdrout": "none",
+        "multi": "one",
+        "ret": "\\r\\n",
+        "temp": "sensor1,sensor2,sensor3",
+        "skip": "0",
+        "strings": true,
+        "include_empty_strings": "",
+        "include_null_values": "",
+        "x": 350,
+        "y": 460,
+        "wires": [
+            [
+                "9ada98a660037893"
+            ]
+        ]
+    },
+    {
+        "id": "9ada98a660037893",
+        "type": "function",
+        "z": "56a5538bedcaa144",
+        "name": "function 1",
+        "func": "msg.topic = \"INSERT INTO `SEN` (`temperatura`,`distancia`,`presao`) VALUES (:sensor1,:sensor2,:sensor3)\"\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 460,
+        "wires": [
+            [
+                "d25d9c957ec942df"
+            ]
+        ]
+    },
+    {
+        "id": "23d3329c879d4917",
+        "type": "inject",
+        "z": "56a5538bedcaa144",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "0",
+        "payloadType": "num",
+        "x": 190,
+        "y": 140,
+        "wires": [
+            [
+                "709d102caa0b6d6d",
+                "bc233cbe5a4e24b8"
+            ]
+        ]
+    },
+    {
+        "id": "709d102caa0b6d6d",
+        "type": "debug",
+        "z": "56a5538bedcaa144",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 540,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "d05551366c8a0fa6",
+        "type": "mqtt in",
+        "z": "56a5538bedcaa144",
+        "name": "",
+        "topic": "pesooumassa",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "f6621d40ff8b8bea",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 190,
+        "y": 300,
+        "wires": [
+            [
+                "709d102caa0b6d6d"
+            ]
+        ]
+    },
+    {
+        "id": "bc233cbe5a4e24b8",
+        "type": "mqtt out",
+        "z": "56a5538bedcaa144",
+        "name": "",
+        "topic": "outpesooumassa",
+        "qos": "0",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "f6621d40ff8b8bea",
+        "x": 570,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "7037f7a5ca7b6804",
+        "type": "inject",
+        "z": "56a5538bedcaa144",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "1",
+        "payloadType": "num",
+        "x": 190,
+        "y": 220,
+        "wires": [
+            [
+                "bc233cbe5a4e24b8",
+                "709d102caa0b6d6d"
+            ]
+        ]
+    },
+    {
+        "id": "13e32a813aad43a5",
+        "type": "debug",
+        "z": "56a5538bedcaa144",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 840,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "d25d9c957ec942df",
+        "type": "mysql",
+        "z": "56a5538bedcaa144",
+        "mydb": "6de74c1133bf35e1",
+        "name": "banco",
+        "x": 690,
+        "y": 460,
+        "wires": [
+            [
+                "13e32a813aad43a5"
+            ]
+        ]
+    },
+    {
+        "id": "f6621d40ff8b8bea",
+        "type": "mqtt-broker",
+        "name": "HiveMQ",
+        "broker": "broker.hivemq.com",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "6de74c1133bf35e1",
+        "type": "MySQLdatabase",
+        "name": "banco",
+        "host": "bl2vawac2nw8tzfd8l8e-mysql.services.clever-cloud.com",
+        "port": "3306",
+        "db": "bl2vawac2nw8tzfd8l8e",
+        "tz": "",
+        "charset": "UTF8"
+    }
+]
